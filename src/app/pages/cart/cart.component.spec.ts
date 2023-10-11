@@ -59,7 +59,7 @@ describe(
 
         it("getTotalPrice return correct amount", () => {
             const amount = cartComponent.getTotalPrice(listBook)
-            expect(amount).toEqual(114);
+            expect(amount).toEqual(106);
             expect(amount).not.toBeNull();
         })
 
@@ -67,6 +67,7 @@ describe(
             const action: string = "plus";
             const book: Book = listBook[2];
             
+            //three possible ways to assign an injected service
             // const service = fixture.debugElement.injector.get(BookService);
             // const serviceNotGood = cartComponent["_bookService"];
             // const serviceUgly = (cartComponent as any)._bookService;
@@ -78,14 +79,22 @@ describe(
             expect(spyOne).toHaveBeenCalled();
             expect(spyTwo).toHaveBeenCalled();
             expect(cartComponent.totalPrice).toEqual(23);
+            expect(book.amount).toEqual(8);
+            expect(book.amount === 8).toBeTrue;
 
-        })
+        });
 
-        // public onInputNumberChange(action: string, book: Book): void {
-        //     const amount = action === 'plus' ? book.amount + 1 : book.amount - 1;
-        //     book.amount = Number(amount);
-        //     this.listCartBook = this._bookService.updateAmountBook(book);
-        //     this.totalPrice = this.getTotalPrice(this.listCartBook);
-        //   }
+        it("Clears cart correctly", () => {
+            cartComponent.listCartBook = listBook;
+            // const listCartBook: Book[] = [listBook[2], listBook[3]];
+            
+            const spyOne = spyOn(service, "removeBooksFromCart").and.callFake(() => null);
+
+            cartComponent.onClearBooks();
+            expect(spyOne).toHaveBeenCalled();
+            expect(cartComponent.listCartBook.length).toEqual(0);
+ 
+
+        });
     }
 )

@@ -20,3 +20,8 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
+## INFO 
+TESTS ARE NOT THROWN IN ORDER
+BETTER ASSIGN SPECIFIC DATA FOR EVERY TEST CASE, NOT SHARED ONE
+
+- Private method: how to call it? Calling its parent (the one that calls the private method)
