@@ -44,12 +44,13 @@ describe(
                 schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ]
             }).compileComponents();
         });
-
+        
         beforeEach(() => {
             fixture = TestBed.createComponent(CartComponent);
             cartComponent = fixture.componentInstance;
             fixture.detectChanges();
             service = fixture.debugElement.injector.get(BookService);
+            spyOn(service, 'getBooksFromCart').and.callFake(() => listBook)
 
         });
 
