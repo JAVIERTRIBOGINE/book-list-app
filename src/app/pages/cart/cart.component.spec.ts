@@ -86,8 +86,6 @@ describe(
 
         it("Clears cart correctly", () => {
             cartComponent.listCartBook = listBook;
-            // const listCartBook: Book[] = [listBook[2], listBook[3]];
-            
             const spyOne = spyOn(service, "removeBooksFromCart").and.callFake(() => null);
 
             cartComponent.onClearBooks();
@@ -95,6 +93,15 @@ describe(
             expect(cartComponent.listCartBook.length).toEqual(0);
  
 
+        });
+
+        // direct test to private method -  not recommended
+        it("Clears cart correctly", () => {
+            cartComponent.listCartBook = listBook;
+            const spyOne = spyOn(service, "removeBooksFromCart").and.callFake(() => null);
+
+            (cartComponent as any)._clearListCartBook();
+            expect(cartComponent.listCartBook.length).toEqual(0);
         });
     }
 )
