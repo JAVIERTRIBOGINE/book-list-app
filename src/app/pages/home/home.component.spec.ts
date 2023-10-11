@@ -39,13 +39,13 @@ fdescribe("home component", () => {
             imports: [ HttpClientTestingModule],
             declarations: [HomeComponent],
             providers: [
-                // BookService,
-                {
-                    provide: BookService,
-                    useValue: {
-                        getBooks: () => { return of(listBookTwo)}
-                    }
-                }
+                BookService,
+                // {
+                //     provide: BookService,
+                //     useValue: {
+                //         getBooks: () => { return of(listBookTwo)}
+                //     }
+                // }
             ],
             schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
         }).compileComponents();
@@ -68,8 +68,9 @@ fdescribe("home component", () => {
     // })
 
     it("calls getBooks with service geBooks - two", () => {
-
+        const spy = spyOn(service, "getBooks").and.callFake(() => of(listBookTwo));
         component.getBooks();
+        expect(spy).toHaveBeenCalled();
         expect(component.listBook.length).toEqual(3)
     })
 
