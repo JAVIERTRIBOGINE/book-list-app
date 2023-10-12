@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
+import { ReduceTextPipeMock } from "src/app/mocks/reduceText-pipe-mock";
 import { Book } from "src/app/models/book.model";
 import { BookService } from "src/app/services/book.service";
 import { HomeComponent } from "./home.component"
@@ -30,14 +31,15 @@ const listBookTwo: Book[] = [
     }
 ];
 
-fdescribe("home component", () => {
+
+describe("home component", () => {
     let component: HomeComponent;
     let fixture: ComponentFixture<HomeComponent>;
     let service: BookService;
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [ HttpClientTestingModule],
-            declarations: [HomeComponent],
+            declarations: [HomeComponent, ReduceTextPipeMock],
             providers: [
                 BookService,
                 // {
@@ -58,14 +60,23 @@ fdescribe("home component", () => {
         fixture.detectChanges();
     });
 
+    beforeAll(() => {
+        // ONLY ONCE AT THE BEGINING OF THE TESTS OF THIS DESCRIBE
+    });
+
+    afterEach(() => {
+        // AFTER EVERY  TEST OF THIS DESCRIBE
+
+    });
+
+    afterAll(() => {
+        // ONLY ONCE AT THE END OF THE TESTS OF THIS DESCRIBE
+    });
+
     it("should create", () => {
         expect(component).toBeTruthy();
     })
 
-    // it("calls getBooks with service geBooks - one", () => {
-
-    //     component.getBooks();
-    // })
 
     it("calls getBooks with service geBooks - two", () => {
         const spy = spyOn(service, "getBooks").and.callFake(() => of(listBookTwo));
@@ -73,6 +84,4 @@ fdescribe("home component", () => {
         expect(spy).toHaveBeenCalled();
         expect(component.listBook.length).toEqual(3)
     })
-
-
 })
