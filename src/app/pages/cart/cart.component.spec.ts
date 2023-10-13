@@ -29,7 +29,7 @@ const listBook: Book[] = [
     }
 ];
 
-fdescribe(
+describe(
     "cartComponent", () => {
         
         let cartComponent: CartComponent;
