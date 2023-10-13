@@ -12,7 +12,7 @@ const mockRouter = {
 }
 
 
-fdescribe("Nav component", () => {
+describe("Nav component", () => {
 
     let component: NavComponent;
     let fixture: ComponentFixture<NavComponent>;

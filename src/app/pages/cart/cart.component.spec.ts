@@ -1,9 +1,11 @@
 import { ComponentFixture, inject, TestBed } from "@angular/core/testing";
+import { CommonModule } from '@angular/common';
 import { CartComponent } from "./cart.component";
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BookService } from "src/app/services/book.service";
-import { Component, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
+import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from "@angular/core";
 import { Book } from "src/app/models/book.model";
+import { By } from "@angular/platform-browser";
 
 const listBook: Book[] = [
     {
@@ -29,7 +31,7 @@ const listBook: Book[] = [
     }
 ];
 
-describe(
+fdescribe(
     "cartComponent", () => {
         
         let cartComponent: CartComponent;
@@ -38,8 +40,8 @@ describe(
 
         beforeEach(() => {
             TestBed.configureTestingModule({
-                imports: [ HttpClientTestingModule],
-                declarations: [/*CartComponent*/],
+                imports: [ HttpClientTestingModule, CommonModule],
+                declarations: [CartComponent],
                 providers: [BookService, CartComponent],
                 schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ]
             }).compileComponents();
@@ -54,15 +56,15 @@ describe(
 
         });
 
-        // it("se crea cart", () => {
-        //     expect(cartComponent).toBeTruthy();
-        // })
+        it("se crea cart", () => {
+            expect(cartComponent).toBeTruthy();
+        })
 
-        fit("se crea cart", inject([CartComponent], (testComp: CartComponent) => {
-            expect(testComp).toBeTruthy();
-        }));
+        // it("se crea cart", inject([CartComponent], (testComp: CartComponent) => {
+        //     expect(testComp).toBeTruthy();
+        // }));
 
-        it("getTotalPrice return correct amount", () => {
+        xit("getTotalPrice return correct amount", () => {
             const amount = cartComponent.getTotalPrice(listBook)
             expect(amount).toEqual(106);
             expect(amount).not.toBeNull();
@@ -101,5 +103,16 @@ describe(
  
 
         });
+
+        it("when listComponent empty h5 element shows empty tidtle", () => {
+            cartComponent.listCartBook = listBook;
+            fixture.detectChanges();
+            console.log("comp listCartBook length", cartComponent.listCartBook.length)
+            const elementEmpty = fixture.debugElement.query(By.css('#titleCardEmpty'));
+            
+            console.log("elementEmpty:", elementEmpty)
+            
+            expect(elementEmpty).toBeTruthy()
+        })
     }
 )
