@@ -1,6 +1,6 @@
 import { ReduceTextPipe } from "./reduce-text.pipe"
 
-fdescribe("use of reduceTextPipe", () => {
+describe("use of reduceTextPipe", () => {
     let pipe: ReduceTextPipe;
     beforeEach(() => {
         pipe = new ReduceTextPipe();
