@@ -10,6 +10,8 @@ import { HomeComponent } from './home/home.component';
 import { CartComponent } from './cart/cart.component';
 import { NavModule } from '../nav/nav.module';
 import { ReduceTextPipe } from './reduce-text/reduce-text.pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormComponent } from './form/form.component';
 
 
 @NgModule({
@@ -18,15 +20,20 @@ import { ReduceTextPipe } from './reduce-text/reduce-text.pipe';
     CommonModule,
     NavModule,
     PagesRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     PagesComponent,
     HomeComponent,
     CartComponent,
     ReduceTextPipe,
+    FormComponent
   ],
   exports: [
     PagesComponent,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class PagesModule { }
