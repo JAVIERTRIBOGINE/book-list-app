@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, inject, TestBed } from "@angular/core/testing";
 import { CartComponent } from "./cart.component";
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BookService } from "src/app/services/book.service";
@@ -29,7 +29,7 @@ const listBook: Book[] = [
     }
 ];
 
-describe(
+fdescribe(
     "cartComponent", () => {
         
         let cartComponent: CartComponent;
@@ -39,8 +39,8 @@ describe(
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [ HttpClientTestingModule],
-                declarations: [CartComponent],
-                providers: [BookService],
+                declarations: [/*CartComponent*/],
+                providers: [BookService, CartComponent],
                 schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ]
             }).compileComponents();
         });
@@ -54,9 +54,13 @@ describe(
 
         });
 
-        it("se crea cart", () => {
-            expect(cartComponent).toBeTruthy();
-        })
+        // it("se crea cart", () => {
+        //     expect(cartComponent).toBeTruthy();
+        // })
+
+        fit("se crea cart", inject([CartComponent], (testComp: CartComponent) => {
+            expect(testComp).toBeTruthy();
+        }));
 
         it("getTotalPrice return correct amount", () => {
             const amount = cartComponent.getTotalPrice(listBook)
