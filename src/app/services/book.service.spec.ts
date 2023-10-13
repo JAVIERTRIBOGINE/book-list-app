@@ -2,6 +2,7 @@ import { HttpClientTestingModule, HttpTestingController } from "@angular/common/
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 import { environment } from "src/environments/environment.prod";
+import Swal from "sweetalert2";
 import { Book } from "../models/book.model";
 import { BookService } from "./book.service"
 
@@ -29,9 +30,20 @@ const listBook: Book[] = [
     }
 ];
 
+const bookLocal: Book = 
+    {
+        name: '',
+        author: '',
+        isbn: '',
+        price: 8,
+        amount: 7
+    }
+
+
 fdescribe("bookService", () => {
     let service: BookService;
     let httpMock: HttpTestingController;
+    let storage = [];
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -47,6 +59,13 @@ fdescribe("bookService", () => {
     beforeEach(() => {
         service = TestBed.inject(BookService);
         httpMock = TestBed.inject( HttpTestingController );
+        storage = [];
+        spyOn(localStorage, "getItem").and.callFake(((key: string) => storage[key] ?? null ) )
+        spyOn(localStorage, "setItem").and.callFake ((key: string, bookList: string ) => {
+            storage[key] = bookList;
+            console.log("storage key", storage[key])
+            return storage[key];
+        })
     });
 
     //closes the calls
@@ -61,7 +80,6 @@ fdescribe("bookService", () => {
     it("GET books", () => {
         service.getBooks().subscribe(
             (resp: Book[]) => {
-                console.log("listbook ? ", listBook)
                 expect(resp).toEqual(listBook);
             }
         )
@@ -72,7 +90,25 @@ fdescribe("bookService", () => {
 
     });
 
-    
+    it("getbooksFromCart empry when localstorage null", () => {
 
+        let listBooks = service.getBooksFromCart();
+        expect(listBooks.length).toBe(0);
+    });
+
+    it("addBooksToCart when no list in localstorage", () => {
+        const toast =  {
+            fire: () => null
+        } as any;
+        
+        let spyOne = spyOn(Swal, 'mixin').and.callFake(() => { 
+            return toast;
+        })
+        service.addBookToCart(bookLocal);
+        let listBooks = service.getBooksFromCart();
+
+        expect(spyOne).toHaveBeenCalled();
+        expect(listBooks.length).toBe(1);
+    })
 
 })
