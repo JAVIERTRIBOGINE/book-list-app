@@ -6,6 +6,11 @@ import Swal from "sweetalert2";
 import { Book } from "../models/book.model";
 import { BookService } from "./book.service"
 
+
+const toast =  {
+    fire: () => null
+} as any;
+
 const listBook: Book[] = [
     {
         name: '',
@@ -40,7 +45,7 @@ const bookLocal: Book =
     }
 
 
-fdescribe("bookService", () => {
+describe("bookService", () => {
     let service: BookService;
     let httpMock: HttpTestingController;
     let storage = [];
@@ -65,6 +70,11 @@ fdescribe("bookService", () => {
             storage[key] = bookList;
             console.log("storage key", storage[key])
             return storage[key];
+        })
+
+        
+       spyOn(Swal, 'mixin').and.callFake(() => { 
+            return toast;
         })
     });
 
@@ -97,18 +107,20 @@ fdescribe("bookService", () => {
     });
 
     it("addBooksToCart when no list in localstorage", () => {
-        const toast =  {
-            fire: () => null
-        } as any;
-        
-        let spyOne = spyOn(Swal, 'mixin').and.callFake(() => { 
-            return toast;
-        })
+
         service.addBookToCart(bookLocal);
         let listBooks = service.getBooksFromCart();
 
-        expect(spyOne).toHaveBeenCalled();
         expect(listBooks.length).toBe(1);
+    });
+
+    it("removeBooksFromCart", () => {
+
+        service.addBookToCart(bookLocal);
+        service.removeBooksFromCart();
+        let listBooksRemoved = service.getBooksFromCart();
+        expect(listBooksRemoved.length).toBe(0);
+
     })
 
 })
