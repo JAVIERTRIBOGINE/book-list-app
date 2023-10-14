@@ -31,9 +31,9 @@ const listBook: Book[] = [
     }
 ];
 
-fdescribe(
+describe(
     "cartComponent", () => {
-        
+
         let cartComponent: CartComponent;
         let fixture: ComponentFixture<CartComponent>;
         let service: BookService;
@@ -46,7 +46,7 @@ fdescribe(
                 schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ]
             }).compileComponents();
         });
-        
+
         beforeEach(() => {
             fixture = TestBed.createComponent(CartComponent);
             cartComponent = fixture.componentInstance;
@@ -73,12 +73,12 @@ fdescribe(
         it("input adds a books", () => {
             const action: string = "plus";
             const book: Book = listBook[2];
-            
+
             //three possible ways to assign an injected service
             // const service = fixture.debugElement.injector.get(BookService);
             // const serviceNotGood = cartComponent["_bookService"];
             // const serviceUgly = (cartComponent as any)._bookService;
-            
+
             const spyOne = spyOn(service, "updateAmountBook").and.callFake(() => null);
             const spyTwo = spyOn(cartComponent, "getTotalPrice").and.callFake((_listBook) => 23)
 
@@ -94,13 +94,13 @@ fdescribe(
         it("Clears cart correctly", () => {
             cartComponent.listCartBook = listBook;
             // const listCartBook: Book[] = [listBook[2], listBook[3]];
-            
+
             const spyOne = spyOn(service, "removeBooksFromCart").and.callFake(() => null);
 
             cartComponent.onClearBooks();
             expect(spyOne).toHaveBeenCalled();
             expect(cartComponent.listCartBook.length).toEqual(0);
- 
+
 
         });
 
@@ -109,9 +109,9 @@ fdescribe(
             fixture.detectChanges();
             console.log("comp listCartBook length", cartComponent.listCartBook.length)
             const elementEmpty = fixture.debugElement.query(By.css('#titleCardEmpty'));
-            
+
             console.log("elementEmpty:", elementEmpty)
-            
+
             expect(elementEmpty).toBeTruthy()
         })
     }

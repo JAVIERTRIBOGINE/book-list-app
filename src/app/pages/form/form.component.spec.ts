@@ -2,8 +2,9 @@ import { FormComponent } from './form.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { newArray } from '@angular/compiler/src/util';
 
-describe('Form component', () => {
+fdescribe('Form component', () => {
 
     let component: FormComponent
     let fixture: ComponentFixture<FormComponent>
@@ -30,7 +31,7 @@ describe('Form component', () => {
     it('should create', () => {
         expect(component).toBeTruthy()
     })
-    
+
     it('name fild is required', () => {
         const nameField = component.form.get('name')
         nameField.setValue('')
@@ -42,7 +43,7 @@ describe('Form component', () => {
         nameField.setValue('test name')
         expect(nameField.valid).toBeFalse()
     })
-    
+
     it('name fild is correct with less than 5 characters', () => {
         const nameField = component.form.get('name')
         nameField.setValue('Jack')
@@ -70,5 +71,18 @@ describe('Form component', () => {
         emailField.setValue('test@test.com')
         expect(component.form.valid).toBeTrue()
     })
-    
+
+    // example of integration test
+    it('input name is getting correctly', () => {
+      const nameField = fixture.nativeElement.querySelectorAll('input');
+      nameField[0].value = "javi";
+      nameField[1].value = "jtribo@hotmail.com";
+      nameField.forEach(element => {
+        element.dispatchEvent( new Event('input'));
+      });
+      // nameField[0].dispatchEvent( new Event("input"));
+      expect(component.form.get("name").value).toEqual("javi");
+      expect(component.form.valid).toBeTrue();
+  })
+
 })
